@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About | Dijkstra</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container" style=" margin-top: 20px;">
+        <h3>
+            About
+            <small class="text-muted">Our Project</small>
+        </h3>
+        <p>It is based on finding the single-source shortest path from a given source to every other location in the
+            given Graph. We have used the famous "Dijkstra Algorithm" to implement this. </p>
+        <p>1. Create a graph. Manually or by using "New Graph button"</p>
+        <p>2. Click <button style="border: 1px solid gray">Solve✅</button> to visualize. </p>
+        <p>3. Full Visualization is shown of the path taken from source to destination.</p>
+
+        <p>This is mainly implemented to work in real-world. The cities and roads linking them, are respectively represented as nodes and edges.</p>
+
+        <div class="about_dijkstra" >
+            <h3>
+                About
+                <small class="text-muted">Dijkstra Algorithm</small>
+            </h3>
+            <p>Dijkstra's algorithm (/ˈdaɪkstrəz/ DYKE-strəz) is an algorithm for finding the shortest paths between
+                nodes in a graph, which may represent, for example, road networks. It was conceived by computer
+                scientist Edsger W. Dijkstra in 1956. <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">more</a> </p>
+            <p class="lead">
+                A modified version of Dijkstra Algorithm is currently being used in <span style="color: red;"> Google
+                    Maps.</span>
+            </p>
+            <p>An operation called "relaxing" the edges is used to solve this problem using Dijkstra.</p>
+            <img src="images/dijkstra.PNG" alt="">
+            <p>In this, an edge is relaxed i.e. </p>
+            <p>if(d(u) > d(v) + c(v,u)</p>
+            <p>then, d(u) = d(v) + c(v,u)</p>
+
+            <small class="text-muted">where</small>
+            <p>
+                d(u) = distance between Source(S) and Node U directly </p>
+            <p>d(v) = distance between Source(S) and Node V directly</p>
+            <p>c(v,u) = cost from v to u (weights)</p>
+
+            <div style="display: flex">
+                <div>
+                    <img src="images/DijkstraDemo.gif">
+                </div>
+                <div style="margin-left: 10em;">
+                    <h2>Algorithm</h2>
+                    <div style="border: 1px solid gray; padding: 20px; height: 28em; overflow: auto; width: 28em;">
+                        <p>function Dijkstra(Graph, source):</p>
+                        <p>&emsp;&emsp; vertex v in Graph: </p>
+                        <p>&emsp;&emsp;&emsp;&emsp;dist[v] := infinity </p>
+                        <p>&emsp;&emsp;&emsp;&emsp;previous[v] := undefined </p>
+                        <p>&emsp;&emsp;dist[source] := 0 </p>
+                        <p>&emsp;&emsp;Q := the set of all nodes in Graph </p>
+                        <p>&emsp;&emsp;while Q is not empty: </p>
+                        <p>&emsp;&emsp;&emsp;&emsp;u := node in Q with smallest dist[ ]</p>
+                        <p>&emsp;&emsp;&emsp;&emsp;remove u from Q</p>
+                        <p> &emsp;&emsp;&emsp;&emsp;for each neighbor v of u: </p>
+                        <p> &emsp;&emsp;&emsp;&emsp;alt := dist[u] + dist_between(u, v)</p>
+                        <p> &emsp;&emsp;&emsp;&emsp;if alt dist[v] </p>
+                        <p> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;dist[v] :=alt </p>
+                        <p> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;previous[v] :=u </p>
+                        <p>&emsp;&emsp; return previous[ ]</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

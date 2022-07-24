@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dijkstra Implementation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="keywords" content="Dijkstra">
+  <meta property="og:description" content="Dijkstra Implementation">
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <style type="text/css">
+    body,
+    html,
+    div,
+    svg {
+      margin: 0;
+      padding: 0;
+    }
+
+    #Wrap {
+      position: fixed;
+      height: 0%;
+      width: 100%;
+      user-select: none;
+    }
+
+    .itemwrap {
+      position: fixed;
+      width: 50%;
+      height: 50%;
+      left: 100px;
+      top: 100px;
+    }
+
+    .item {
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      border: 1px solid #333;
+      height: 50px;
+      line-height: 50px;
+      width: 50px;
+      text-align: center;
+    }
+
+    .lineWrap {
+      position: fixed;
+      left: 0;
+      overflow: visible;
+    }
+
+    div.test {
+      width: 50px;
+      height: 50px;
+      background: #7bcaff;
+      border-radius: 50%;
+      border: 5px solid #34aaf1;
+      position: fixed;
+      z-index: 9999999;
+      font-size: 30px;
+      color: #fff;
+      text-align: center;
+      font-weight: 600;
+      /*float: left;*/
+    }
+
+    #lineWrap {
+      position: fixed;
+      overflow: visible;
+    }
+
+    .slide {
+      position: fixed;
+      top: 8em;
+      right: 2em;
+      height: 25em;
+      padding: 0.5em 0.5em;
+      /* padding-left: 5px; */
+      width: 22%;
+      /* border: 3px solid #1adb00; */
+      border-radius: 4px;
+      overflow: auto;
+    }
+
+    .slide_title {
+      font-size: 24px;
+      /* font-weight: 600; */
+      font-family: 'Noto Sans', sans-serif;
+      color: #125;
+      background-color: whitesmoke;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .slide_content {
+      font-size: 20px;
+      font-family: 'Jost', sans-serif;
+      color: #678945;
+    }
+
+    .slider_line {
+      position: unset;
+    }
+
+    .int {
+      height: 26px;
+      width: 60px;
+      text-align: center;
+      border-radius: 3px;
+      border: 1px solid #3989c5;
+    }
+
+    .control {
+      /* border: 1px solid black; */
+      background-color: whitesmoke;
+      position: fixed;
+      display: flex;
+      /* display: inline; */
+      /* margin-top: 10px; */
+      /* left: 0px;
+      top: 0px; */
+      /* padding: 1em 0.5em; */
+      width: 100%;
+      z-index: 999999999;
+      /* text-align: center; */
+    }
+
+    .clearbuttons {
+      /* background-color: red; */
+      padding: 1em 1em;
+      border-right: 1px solid gray;
+
+    }
+
+    .specifybuttons {
+      /* background-color: green; */
+      padding: 1em 1em;
+      border-right: 1px solid gray;
+
+
+    }
+
+    .generategraphbutton {
+      /* background-color: magenta; */
+      padding: 1em 1em;
+      border-right: 1px solid gray;
+
+
+    }
+
+    .solvebutton {
+      /* background-color: brown; */
+      padding: 1em 1em;
+      /* border-right: 1px solid gray; */
+
+
+    }
+
+    .aboutt {
+      background-color: white;
+      border: 1px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 1em 1em;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+
+    }
+
+    .refer {
+      padding: 10px;
+      margin-right: 5px;
+      margin-left: 5px;
+      background: #1a73e8;
+      border-radius: 3px;
+      border: 1px solid #3989c5;
+      cursor: pointer;
+      font-family: 'Jost', sans-serif;
+      font-size: 15px;
+      color: white;
+      font-weight: 300;
+    }
+
+    .clearss {
+      background-color: #d74a38;
+      border-color: #d74a38;
+      cursor: pointer;
+    }
+
+    .int_num {
+      font-size: 22px;
+      color: #232323;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      background: #eee;
+      text-align: center;
+    }
+
+    .changdiv {
+      width: 400px;
+      height: 250px;
+      top: 200px;
+      left: 30%;
+      border: 4px solid #49b1f5;
+      border-radius: 5px;
+      text-align: center;
+      padding: 20px;
+      position: fixed;
+      background: #fef;
+      display: none;
+      z-index: 99999999;
+    }
+
+    .tochange {
+      margin: auto;
+      width: 90px;
+      height: 30px;
+      border: 3px solid #49b1f5
+    }
+
+    a:link {
+      color: #000000;
+      text-decoration: none;
+    }
+
+
+    a:visited {
+      color: #000;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: #000;
+    }
+  </style>
+  <div class="control">
+    <!-- <h2>Dijkstra Implementation</h2> -->
+    </h2>
+    <div class="clearbuttons">
+      <input type="button" name="" value="Clear Graph Χ" class="refer clearss" onclick="cleanele()">
+      <!-- clear Graph -->
+      <input type="button" name="" value="Clear Edges Χ" class="refer clearss" onclick="cleanline()">
+      <!-- clear edges -->
+    </div>
+    <div class="specifybuttons">
+      <span style="font-family: sans-serif;"> Specify no. of nodes: </span><input type="input" name="" id="input_num"
+        value="6" class="int" placeholder="Specify no. of nodes">
+      <!-- //enter no. of nodes explicitly -->
+      <input type="button" name="" value="Add Nodes📍" class="refer" onclick="input()">
+      <!-- put only nodes if alreadycleared -->
+      <input type="button" name="" value="Add Edges 🌫" class="refer" onclick="randomCreate(1)">
+      <!-- put random edges and weights -->
+    </div>
+    <div class="generategraphbutton">
+      <input type="button" name="" value="New Graph ✔" class="refer" onclick="randomCreate(2)">
+      <!-- make a complete random graph -->
+
+      <span style="font-family: sans-serif;">Specify Source node: </span> <input type="input" name="" id="begin"
+        value="v0" class="int">
+      <!-- //enter source node  -->
+    </div>
+    <div class="solvebutton">
+      <input type="button" name="" value="✅ Solve" class="refer" onclick="createPath()">
+      <!-- apply dijkstra  -->
+    </div>
+    <div class="aboutbutton">
+      <abbr title="About Project and Algorithm"> <a href="About-Dijkstra.html" target="_blank"><input type="button"
+            name="" value="❓" class="aboutt"></a> </abbr>
+    </div>
+  </div>
+
+
+  <!-- //This is Removed since didn't know what it does  -->
+  <!-- <div class="changdiv" id="changdiv">
+    输入权值并按确定更改<br>
+    <input type="input" name="" id="cnum"><br>
+    <br>
+    <div class="tochange" type="button" id="quxiao" onclick="quxiao()">取消</div><br>
+    <div class="tochange" type="button" id="onchange" onclick="ok()">更改</div><br>
+    <div class="tochange" type="button" style="background: rgb(190, 240, 81)" id="delete" onclick="deleteline()">删除该链路
+    </div>
+  </div> -->
+
+  <div class="slide" id="slider">
+
+    <!-- <h1>Buttons Instruction</h1>
+    <strong>Clear Graph: </strong>
+    <span>Clears the entire Graph from the screen and cannot undo</span>
+    <br>
+    <br>
+    <strong>Clear Edges: </strong>
+    <span>Deletes only the edges from the graph</span>
+    <br>
+    <br>
+    <strong>Generate Nodes: </strong>
+    <span>Places only the Nodes of the Graph on screen </span>
+    <br>
+    <br>
+    <strong>Add Edges: </strong>
+    <span>Adds Edges to the graph of pre-existing nodes </span>
+    <br>
+    <br>
+    <strong>Generate Graph: </strong>
+    <span>This Generates entirely a different Graph with all the nodes and edges. If we are using this, we don't need to
+      use other Generate buttons </span>
+    <br> -->
+
+  </div>
+  <div id="Wrap"></div>
+  <div id="divele"></div>
+
+
+  <script type="text/javascript">
+    var onlink = false;
+    var onid = "";
+    var MaxvertextType = 100
+    var gigantic = 99999
+
+    var gx = ""
+    var gy = ""
+    var gobj
+
+    function Mgraph() {
+      this.vex = new Array();
+      this.edge = new Array();
+      this.vexnum = 0;
+      this.arcnum = 0;
+    };
+    function getVex(G, x) {
+      var i = 0;
+      for (; i < G.vexnum; i++) {
+        if (G.vex[i] == x) return i;
+      }
+      if (G.vex[i] != x) return -1;
+    }
+    //Dijkstra Algorithm code
+    function Dijkstra(g, x) {
+      cleancolor();
+      var vexnum = g.vexnum;
+      var vex = getVex(g, x);
+      if (vex == -1) return;
+      var dist = new Array();
+      var path = new Array();
+      path[vex] = vex;
+      for (var i = 0; i < vexnum; ++i) {
+        dist[i] = g.edge[vex][i];
+        if (g.edge[vex][i] != gigantic) path[i] = vex;
+      }
+      console.log(dist)
+      var S = new Array();
+      S[vex] = true;
+      var dd;
+      var dvex = 0;
+      var j = 0;
+      var index = 1;
+      var descripe = document.getElementById("slider");
+      descripe.innerHTML = "";
+      for (; j < vexnum - 1; ++j) {
+        setTimeout(function () {
+          dd = gigantic;
+          for (var i = 0; i < vexnum; ++i) {
+            if (dist[i] < dd && !S[i]) {
+              dd = dist[i];
+              dvex = i;
+            }
+          }
+          if (dd == gigantic) {
+            for (var i = 0; i < vexnum; ++i) {
+              if (dist[i] == dd && !S[i]) {
+                dvex = i;
+                break;
+              }
+            }
+            var str = g.vex[dvex] + " is not reachable<br><br>"
+
+            descripe.innerHTML = descripe.innerHTML + "<div class=slider_line><div class=slide_title>" + x + " to " + g.vex[dvex] + "</div><div class=slide_content>" + str + "</div></div>";
+            document.body.appendChild(descripe);
+            index++;
+            S[dvex] = true;
+          }
+          else {
+            var element = document.getElementById(g.vex[dvex]);
+            var now = dvex;
+            var colo = "#" + (Math.round(Math.random() * 800) + 100);
+            element.style.background = colo;
+            var str = "Shortest Path" + ": " + g.vex[now];
+            while (now != vex) {
+              var line1 = document.getElementById(g.vex[now] + g.vex[path[now]]);
+              if (line1 == null)
+                line1 = document.getElementById(g.vex[path[now]] + g.vex[now]);
+              //console.log(line1);
+              line1.style.stroke = colo;
+              now = path[now];
+              str = str + "⬅" + g.vex[now];
+              // str = g.vex[now] + "->" + str;
+            }
+            str = str + "<br>Total Distance= " + dist[dvex] + "<br><br>";
+            descripe.innerHTML = descripe.innerHTML + "<div class=slider_line><div class=slide_title>" + x + " to " + g.vex[dvex] + "</div><div class=slide_content>" + str + "</div></div>";
+            document.body.appendChild(descripe);
+            index++;
+            S[dvex] = true;
+            for (var k = 0; k < vexnum; ++k) {
+              if (!S[k]) {
+                if (dist[dvex] + g.edge[dvex][k] < dist[k]) {
+                  dist[k] = dist[dvex] + g.edge[dvex][k];
+                  path[k] = dvex;
+                }
+              }
+            }
+          }
+        }, 3000 * j);
+      }
+      /*
+          setTimeout(function(){
+              for (var m = 0; m < vexnum; ++m) {
+              var nowvex=m;
+              var str="\npath:"+g.vex[nowvex];
+              while(path[nowvex]!=vex){
+                  nowvex=path[nowvex];
+                  str=str+"<-"+g.vex[nowvex];
+              }
+              str=str+"<-"+g.vex[vex]+"\tdistance:"+dist[m];
+              console.log(str);
+          }
+          },j*3000+2000)
+      */
+    }
+
+    function init(g) {
+      for (var i = 0; i < g.vexnum; i++) {
+        var temp = [];
+        for (var j = 0; j < g.vexnum; ++j) {
+          if (i == j) temp[j] = 0;
+          else temp[j] = gigantic;
+        }
+        g.edge[i] = temp;
+      }
+    }
+
+    mgraph = new Mgraph;
+    var content = "";
+
+    function getElementLeft(element) {
+      var actualLeft = element.offsetLeft;
+      var current = element.offsetParent;
+      while (current !== null) {
+        actualLeft += current.offsetLeft;
+        current = current.offsetParent;
+      }
+      return actualLeft;
+    }
+
+    function getElementTop(element) {
+      var actualTop = element.offsetTop;
+      var current = element.offsetParent;
+      while (current !== null) {
+        actualTop += current.offsetTop;
+        current = current.offsetParent;
+      }
+      return actualTop;
+    }
+
+
+    function input() {
+      if (mgraph.vexnum == 0) {
+        var oinput = document.getElementById('input_num');
+        var num = oinput.value;
+        mgraph.vexnum = num;
+        init(mgraph);
+        //初始化
+        for (var i = 0; i < num; i++) {
+          var vex = "v" + i;
+          mgraph.vex[i] = vex;
+          var div = document.getElementById("divele");
+          var ang = (360 / num) * i;
+          var x = 40 + Math.cos(ang * (Math.PI / 180)) * 30;
+          var y = 50 + Math.sin(ang * (Math.PI / 180)) * 30;
+          //console.log((pai/num)*i)
+
+          div.innerHTML = div.innerHTML + "<div id=" + vex + " style=" + "left:" + x + "%;" + "top:" + y + "%;" + " class=" + "test" + " onclick=link(this)>" + vex + "</div>";
+          document.body.appendChild(div);
+        }
+      }
+      else alert("Please clear the existing nodes on the page first！")
+    }
+
+    //链路线条渲染
+    function creatline(id1, id2, dis) {
+      var div = document.getElementById("Wrap");
+      var ele1 = document.getElementById(id1);
+      var x1 = getElementLeft(ele1) + 25;
+      var y1 = getElementTop(ele1) + 25;
+      var ele2 = document.getElementById(id2);
+      var x2 = getElementLeft(ele2) + 25;
+      var y2 = getElementTop(ele2) + 25;
+      //console.log(y2)
+      var size = " x1=" + x1 + " y1=" + y1 + " x2=" + x2 + " y2=" + y2;
+      div.innerHTML = div.innerHTML + "<svg class=lineWrap id=line" + id1 + id2 + "><line id=" + id1 + id2 + " " + size + " xmlns=" + "http://www.w3.org/2000/svg" + " stroke=" + "#ddd" + " stroke-width=" + 5 + " marker-end=" + "url(#arrow)" + "></line></svg>" + "<div class=int_num style=" + "left:" + (x1 + (x2 - x1) / 2.5) + "px;top:" + (y1 + (y2 - y1) / 2.5) + "px;position:fixed;" + " onclick=changnum(" + id1 + "," + id2 + ",this)>" + dis + "</div>"
+      document.body.appendChild(div);
+    }
+
+
+    function link(obj) {
+      var oid = obj.id;
+
+      if (oid != onid && onlink) {
+        var onclolor = document.getElementById(onid);
+        onclolor.style.background = "#49b1f5";
+        onclolor.style.height = "50px";
+        onclolor.style.width = "50px";
+        // onclolor.style.font-size="30px";
+        //Generate Random Path Lenghts
+        var dis = Math.round(Math.random() * 15) + 1;
+        var x1 = getVex(mgraph, oid);
+        var y1 = getVex(mgraph, onid);
+        if (mgraph.edge[x1][y1] == gigantic) {
+          console.log(dis);
+          creatline(oid, onid, dis);
+          //undirected graph connection
+          mgraph.edge[x1][y1] = dis;
+          mgraph.edge[y1][x1] = dis;
+        }
+        onlink = false;
+        onid = "";
+      }
+      else if (!onlink) {
+        onid = obj.id;
+        onlink = true;
+        obj.style.background = "green";
+        obj.style.height = "70px";
+        obj.style.width = "70px";
+        // obj.style.font-size="40px";
+      }
+    }
+
+    //start search path
+    function createPath() {
+      var begin = document.getElementById("begin");
+      var bd = begin.value;
+      Dijkstra(mgraph, bd);
+    }
+
+    //Modify link weight pop-up box
+    function changnum(x, y, obj) {
+      var ch = document.getElementById("changdiv");
+      ch.style.display = "block";
+      //console.log(x);
+      gx = x.id;
+      gy = y.id;
+      gobj = obj;
+    }
+
+
+    //After modifying the weights, click the OK event
+    function ok() {
+      var changenum = document.getElementById("cnum");
+      var cnum = Number(changenum.value);
+
+      if (cnum != null) {
+        var x = getVex(mgraph, gx);
+        var y = getVex(mgraph, gy);
+        mgraph.edge[x][y] = cnum;
+        mgraph.edge[y][x] = cnum;
+        console.log(cnum);
+      }
+      gobj.innerText = Number(cnum);
+      var ch = document.getElementById("changdiv");
+      ch.style.display = "none";
+      changenum.value = ""
+    }
+
+    //delete link
+    function deleteline() {
+      var div = document.getElementById("Wrap");
+      var line = document.getElementById("line" + gx + gy);
+      div.removeChild(line);
+      div.removeChild(gobj);
+      // line.style.display="none";
+      // gobj.style.display="none";
+      var x = getVex(mgraph, gx);
+      var y = getVex(mgraph, gy);
+      mgraph.edge[x][y] = gigantic;
+      mgraph.edge[y][x] = gigantic;
+      var ch = document.getElementById("changdiv");
+      ch.style.display = "none";
+    }
+
+    //Cancel the modification weight
+    function quxiao() {
+      var ch = document.getElementById("changdiv");
+      ch.style.display = "none";
+      gx = "";
+      gy = "";
+    }
+
+    //clear link
+    function cleanline() {
+      var div = document.getElementById("Wrap");
+      div.innerHTML = "";
+      init(mgraph);
+      var descripe = document.getElementById("slider");
+      descripe.innerHTML = content;
+      cleancolor();
+    }
+
+    //clear node
+    function cleanele() {
+      var div = document.getElementById("divele");
+      div.innerHTML = "";
+      cleanline();
+      mgraph.vexnum = 0;
+      var descripe = document.getElementById("slider");
+      descripe.innerHTML = content;
+    }
+
+
+    //clear color
+    function cleancolor() {
+      var div = document.getElementById("divele")
+      var ele = div.getElementsByTagName("div")
+      for (var i = ele.length - 1; i >= 0; i--) {
+        ele[i].style.background = "#49b1f5";
+      }
+      var line = document.getElementById("Wrap");
+      var linele = line.getElementsByTagName("line")
+      for (var i = linele.length - 1; i >= 0; i--) {
+        linele[i].style.stroke = "#ddd";
+      }
+    }
+
+
+    //Generate a random image
+    function randomCreate(num) {
+      cleanele();
+      var inputnum = document.getElementById("input_num");
+      var value = input_num.value;
+      if (num == 2) {
+        var value = Math.round(Math.random() * 4) + 4;
+        input_num.value = value;
+      }
+      input();
+      for (var i = value - 1; i >= 0; i--) {
+        var lines = Math.round(Math.random() * 2) + 1;
+        var S = new Array();
+        for (var m = value - 1; m >= 0; m--) S[i] = false;
+        var k = 0;
+        for (var j = lines - 1; j >= 0; j--) {
+          for (var n = value - 1; n >= 0; n--) {
+            if (30 > Math.round(Math.random() * 100) && !S[n] && k <= lines) {
+              var x = "v" + i;
+              var y = "v" + n;
+              var having = document.getElementById(y + x);
+              if (having == null) {
+
+                var fuck = Math.round(Math.random() * 15) + 1;
+                creatline(x, y, fuck);
+                mgraph.edge[i][n] = fuck;
+                mgraph.edge[n][i] = fuck;
+              }
+              S[n] = true;
+              k++;
+            }
+          }
+        }
+      }
+    }
+
+
+
+    window.onload = function () {
+      var descripe = document.getElementById("slider");
+      content = descripe.innerHTML;
+      randomCreate(2);
+      descripe.innerHTML = content;
+    }
+
+  </script>
+
+</body>
+
+</html>
